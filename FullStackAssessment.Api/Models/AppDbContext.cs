@@ -21,31 +21,66 @@ public partial class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>(entity =>
-        {
-            entity.ToTable("Product");
+        base.OnModelCreating(modelBuilder);
 
-            entity.Property(e => e.Description).HasMaxLength(1000);
-            entity.Property(e => e.Name).HasMaxLength(150);
-            entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+        // 1. Seed Categories / Product Types
+        modelBuilder.Entity<ProductType>().HasData(
+            new ProductType { Id = 1, Name = "Electronics" },
+            new ProductType { Id = 2, Name = "Furniture" },
+            new ProductType { Id = 3, Name = "Miscellaneous" }
+        );
 
-            entity.HasOne(d => d.ProductType).WithMany(p => p.Products)
-                .HasForeignKey(d => d.ProductTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Product_ProductType");
-        });
-
-        modelBuilder.Entity<ProductType>(entity =>
-        {
-            entity.ToTable("ProductType");
-
-            entity.HasIndex(e => e.Name, "UQ_ProductType_Name").IsUnique();
-
-            entity.Property(e => e.Description).HasMaxLength(500);
-            entity.Property(e => e.Name).HasMaxLength(100);
-        });
-
-        OnModelCreatingPartial(modelBuilder);
+        // 2. Seed Products based on test dataset
+        modelBuilder.Entity<Product>().HasData(
+            new Product
+            {
+                Id = 1,
+                Name = "Graphics Card",
+                Price = 899.99m,
+                Description = "High-performance GPU for gaming and rendering.",
+                ProductTypeId = 1
+            },
+            new Product
+            {
+                Id = 2,
+                Name = "Office Chair",
+                Price = 199.99m,
+                Description = "Ergonomic office chair with lumbar support.",
+                ProductTypeId = 2
+            },
+            new Product
+            {
+                Id = 3,
+                Name = "Keyboard",
+                Price = 49.99m,
+                Description = "Mechanical RGB tactile keyboard.",
+                ProductTypeId = 1
+            },
+            new Product
+            {
+                Id = 4,
+                Name = "Gaming Mouse",
+                Price = 59.99m,
+                Description = "High-precision wireless gaming mouse.",
+                ProductTypeId = 1
+            },
+            new Product
+            {
+                Id = 5,
+                Name = "Obsolete Item",
+                Price = 5.00m,
+                Description = "Legacy hardware inventory item.",
+                ProductTypeId = 3
+            },
+            new Product
+            {
+                Id = 999,
+                Name = "Ghost Product",
+                Price = 0.00m,
+                Description = "Generic placeholder data for system testing.",
+                ProductTypeId = 3
+            }
+        );
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
