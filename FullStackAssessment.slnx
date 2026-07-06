@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="FullStackAssessment.Api/FullStackAssessment.Api.csproj" />
+  <Project Path="FullStackAssessment.Db/FullStackAssessment.Db.sqlproj" Id="ed0a750e-62d5-4c6b-9dd5-691c43dad3a5">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ProductInventory.Tests/ProductInventory.Tests.csproj" />
+</Solution>

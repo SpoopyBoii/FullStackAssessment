@@ -1,0 +1,64 @@
+<div class="card shadow-sm border-0">
+    <div class="card-body" style="min-height: 500px;">
+        <h3 class="card-title mb-4">{{ isEditMode() ? 'Edit Product' : 'Add New Product' }}</h3>
+
+        <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" formControlName="name"
+                    [class.is-invalid]="productForm.get('name')?.invalid && (productForm.get('name')?.dirty || productForm.get('name')?.touched)">
+            
+                @if (productForm.get('name')?.invalid && (productForm.get('name')?.dirty || productForm.get('name')?.touched)) {
+                <div class="text-danger small mt-1">
+                    Name is required.
+                </div>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" formControlName="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input type="number" class="form-control" formControlName="price"
+                    [class.is-invalid]="productForm.get('price')?.invalid && (productForm.get('price')?.dirty || productForm.get('price')?.touched)">
+            
+                @if (productForm.get('price')?.invalid && (productForm.get('price')?.dirty || productForm.get('price')?.touched)) {
+                <div class="text-danger small mt-1">
+                    Price is required.
+                </div>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select class="form-select" formControlName="productTypeId"
+                    [class.is-invalid]="productForm.get('productTypeId')?.invalid && (productForm.get('productTypeId')?.dirty || productForm.get('productTypeId')?.touched)">
+                    <option value="">Select a category</option>
+                    @for (type of productTypes(); track type.id) {
+                    <option [value]="type.id">{{ type.name }}</option>
+                    }
+                </select>
+            
+                @if (productForm.get('productTypeId')?.invalid && (productForm.get('productTypeId')?.dirty ||
+                productForm.get('productTypeId')?.touched)) {
+                <div class="text-danger small mt-1">
+                    Please select a category.
+                </div>
+                }
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary rounded-pill px-4" [disabled]="productForm.invalid">
+                    {{ isEditMode() ? 'Update' : 'Create' }}
+                </button>
+            
+                <button type="button" class="btn btn-secondary ms-2 rounded-pill px-4" (click)="goBack()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

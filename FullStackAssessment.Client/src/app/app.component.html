@@ -1,0 +1,68 @@
+<!-- Top Navbar -->
+<nav class="navbar navbar-dark bg-dark sticky-top border-bottom border-secondary">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1 ps-3 d-flex align-items-center gap-2">
+      <img src="/Varibill-IconWhite.png" alt="Varibill Logo" height="30" width="auto">
+      Product Inventory System
+    </span>
+  </div>
+</nav>
+
+<!-- Main App Layout -->
+<div class="d-flex" style="min-height: calc(100vh - 56px);">
+  
+  <!-- Sidebar Navigation -->
+  <div class="bg-dark text-white shadow-sm" style="width: 250px;">
+    <div class="p-3 position-sticky" style="top: 76px;">
+      <ul class="nav nav-pills flex-column gap-2">
+        
+        <!-- List Route -->
+        <li class="nav-item">
+          <a routerLink="/" 
+             routerLinkActive="active bg-primary" 
+             [routerLinkActiveOptions]="{exact: true}" 
+             class="nav-link text-white d-flex align-items-center gap-2 rounded-pill">
+             <i class="bi bi-journals"></i>
+             Manage Products
+          </a>
+        </li>
+
+        <!-- Add Route -->
+        <li class="nav-item">
+          <a routerLink="/add-product" 
+             routerLinkActive="active bg-primary" 
+             class="nav-link text-white d-flex align-items-center gap-2 rounded-pill">
+             <i class="bi bi-journal-plus"></i>
+             Add New Product
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <!-- Dynamic Content Area -->
+  <div class="flex-grow-1 p-4 bg-light bg-opacity-50">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- Floating Toast Notifications Container -->
+  @if (notificationService.toast(); as currentToast) {
+  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1100; margin-top: 10px;">
+    <div class="toast show align-items-center text-white border-0 shadow-lg"
+      [class.bg-success]="currentToast.type === 'success'" [class.bg-danger]="currentToast.type === 'danger'" role="alert"
+      aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2">
+          <i class="bi" [class.bi-check-circle-fill]="currentToast.type === 'success'"
+            [class.bi-exclamation-triangle-fill]="currentToast.type === 'danger'"></i>
+          {{ currentToast.message }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+          (click)="notificationService.toast.set(null)"></button>
+      </div>
+    </div>
+  </div>
+  }
+  
+</div>
