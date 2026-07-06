@@ -3,3 +3,7 @@ bin/
 obj/
 *.user
 *.suo
+# Database project temporary files
+*.dbmdl
+*.jfm
+*.log
